@@ -1,17 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
 
-    <modelVersion>4.0.0</modelVersion>
-    <groupId>com.xebialabs.xldeploy</groupId>
-    <artifactId>xldeploy-maven-plugin-dar-format</artifactId>
+  <groupId>com.devops.test</groupId>
+  <artifactId>webapp.dar</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>dar</packaging> <!-- DAR packaging -->
 
-    <packaging>pom</packaging> <!-- DAR packaging -->
+  <name>webapp Maven Webapp</name>
+  <!-- FIXME change it to the project's website -->
+  <url>http://www.example.com</url>
 
-    <version>1.0</version>
-    <name>Dar Format</name>
-    <url>http://www.xebialabs.com</url>
-    <build>
-        <plugins>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>1.7</maven.compiler.source>
+    <maven.compiler.target>1.7</maven.compiler.target>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.devops.test</groupId>
+      <artifactId>webapp</artifactId>
+      <version>1.0-SNAPSHOT</version>
+	  <type>war</type>
+      <!-- <scope>system</scope> -->
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.11</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+          <plugins>
             <plugin>
                 <groupId>com.xebialabs.xldeploy</groupId>
                 <artifactId>xldeploy-maven-plugin</artifactId>
@@ -26,82 +51,52 @@
                         <satisfiesReleaseNotes>true</satisfiesReleaseNotes>
                     </deploymentPackageProperties>
                     <deployables>
-
-                        <jee.War name="petclinic" groupId="com.xebialabs.deployit.demo.petclinic-war" artifactId="PetClinic"/>
-
-                        <jee.War name="petclinic-backend" groupId="com.xebialabs.deployit.demo.petclinic-war" artifactId="PetClinic-Backend"/>
-
-                        <file.Archive name="mysql-backend" groupId="mysql" artifactId="mysql-connector-java"/>
-
-                        <file.Folder name="configurationFolder" location="config"/>
-
-                        <file.Archive name="configuration" groupId="org.some.group" artifactId="your-artifact" classifier="txt"/>
-
-                        <wls.DataSourceSpec name="petclinicDS">
-                            <jndiNames>jndi/toto</jndiNames>
-                            <driverName>com.mysql.jdbc.Driver</driverName>
-                            <url>jdbc:mysql://localhost/petclinic</url>
-                            <username>{{DB_USERNAME}}</username>
-                            <password>{{DB_PASSWORD}}</password>
-                        </wls.DataSourceSpec>
-
-                        <sample.AllPossibleKindsSpec name="sampleWithAllPossibleKinds">
-                            <someProp>propValue</someProp>
-                            <someBoolean>true</someBoolean>
-                            <myList>
-                                <value>val1</value>
-                                <value>val2</value>
-                            </myList>
-                            <myMap>
-                                <entry key="key">value</entry>
-                                <entry key="foo">bar</entry>
-                            </myMap>
-                            <myEmbedded>
-                                <sample.EmbeddedCi name="MyEmbeddedCi">
-                                    <someProp>propValue</someProp>
-                                </sample.EmbeddedCi>
-                            </myEmbedded>
-                            <myCiRef ref="petClinicDs"/>
-                            <myCiRefs>
-                                <ci ref="petclinic-backend"/>
-                                <ci ref="mysql-backend"/>
-                            </myCiRefs>
-                        </sample.AllPossibleKindsSpec>
-
+                        <jee.War name="webapp" groupId="com.devops.test" artifactId="webapp"/>
                    </deployables>
                 </configuration>
             </plugin>
         </plugins>
-    </build>
-
-    <dependencies>
-        <dependency>
-            <groupId>com.xebialabs.deployit.demo.petclinic-war</groupId>
-            <artifactId>PetClinic</artifactId>
-            <version>1.0</version>
-            <type>war</type>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.xebialabs.deployit.demo.petclinic-war</groupId>
-            <artifactId>PetClinic-Backend</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <type>war</type>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.13</version>
-            <scope>provided</scope>
-        </dependency>
-    </dependencies>
-
+    <finalName>webapp</finalName>
+    <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
+      <plugins>
+        <plugin>
+          <artifactId>maven-clean-plugin</artifactId>
+          <version>3.0.0</version>
+        </plugin>
+        <!-- see http://maven.apache.org/ref/current/maven-core/default-bindings.html#Plugin_bindings_for_war_packaging -->
+        <plugin>
+          <artifactId>maven-resources-plugin</artifactId>
+          <version>3.0.2</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.7.0</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>2.20.1</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-war-plugin</artifactId>
+          <version>3.2.0</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-install-plugin</artifactId>
+          <version>2.5.2</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <version>2.8.2</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+  
   <pluginRepositories>
     <pluginRepository>
       <id>apache.snapshots</id>
       <url>https://dist.xebialabs.com/public/maven2/</url>
     </pluginRepository>
   </pluginRepositories>
-
+  
 </project>
